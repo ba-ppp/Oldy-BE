@@ -14,9 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const loginRoute = require("./routes/login.route");
+const registerRoute = require("./routes/register.route");
 
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
 
 app.use("/login", loginRoute);
+
+app.use("/register", registerRoute);
