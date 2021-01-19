@@ -52,10 +52,8 @@ module.exports.index = async (req, res) => {
       result.token = token;
       result.isLogin = true;
 
+      // save refreshToken to user's db
       await User.updateOne({ email: email }, { refreshToken: refreshToken });
-
-      let c = await User.find();
-      console.log(c);
     } else {
       result.error = "Password not correct";
     }
