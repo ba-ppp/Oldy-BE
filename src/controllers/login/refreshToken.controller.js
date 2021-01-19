@@ -10,16 +10,20 @@ const refreshToken = async (req, res) => {
   const privateTokenKey = fs.readFileSync(
     path.resolve(__dirname, "./keys/privateToken.key")
   );
+
   const privateRefreshKey = fs.readFileSync(
     path.resolve(__dirname, "./keys/privateRefresh.key")
+  );
+  const publicRefreshKey = fs.readFileSync(
+    path.resolve(__dirname, "./keys/publicRefresh.key")
   );
 
   // refreshToken
   const refreshToken = req.body.refreshToken;
   // check token
-  jwt.verify(
+  await jwt.verify(
     refreshToken,
-    privateRefreshKey,
+    publicRefreshKey,
     { algorithms: ["RS256"] },
     async function (err, decoded) {
       // if not token
@@ -45,18 +49,17 @@ const refreshToken = async (req, res) => {
             email: user.email,
           },
           privateRefreshKey,
-          { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+          { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
         );
+
         result.token = newToken;
         result.refreshToken = newRefreshToken;
-
         // update new refreshtoken to db
         await User.updateOne({ _id: id }, { refreshToken: refreshToken });
-
-        res.json(result);
       }
     }
   );
+  res.json(result);
 };
 
 module.exports.refreshToken = refreshToken;
