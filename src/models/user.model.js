@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   postId: Array,
   avt: String,
+  refreshToken: String,
 });
 
 const Users = mongoose.model("Users", userSchema, "users");
