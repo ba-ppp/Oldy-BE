@@ -5,7 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-const port = 3000;
+const port = process.env.PORT || 8000;
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -19,9 +19,8 @@ const registerRoute = require("./routes/register.route");
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
-
-app.get("/", (req, res) => {
-  res.send("<h1>This is api for Oldy</h1>");
+app.get("/", function (req, res) {
+  res.sendStatus(200);
 });
 
 app.use("/login", loginRoute);
