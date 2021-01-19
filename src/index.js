@@ -20,6 +20,10 @@ app.listen(port, () => {
   console.log("App listening on port", port);
 });
 
+app.get("/", (req, res) => {
+  res.send("<h1>This is api for Oldy</h1>");
+});
+
 app.use("/login", loginRoute);
 
 app.use("/register", registerRoute);
