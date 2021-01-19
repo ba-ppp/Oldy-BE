@@ -7,7 +7,6 @@ const path = require("path");
 const login = async (req, res) => {
   const email = req.body.email;
   const nonPassword = req.body.password; // password input
-
   let result = {
     error: "",
     isLogin: false,
