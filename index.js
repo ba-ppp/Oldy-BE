@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 const loginRoute = require("./src/routes/login.route");
 const registerRoute = require("./src/routes/register.route");
+const forgetRoute = require("./src/routes/forget-pass.route");
 
 app.listen(port, () => {
   console.log("App listening on port", port);
@@ -26,3 +27,5 @@ app.get("/", function (req, res) {
 app.use("/login", loginRoute);
 
 app.use("/register", registerRoute);
+
+app.use("/forget", forgetRoute);
