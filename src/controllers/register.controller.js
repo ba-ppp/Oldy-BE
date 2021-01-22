@@ -17,19 +17,17 @@ module.exports.index = async (req, res) => {
     // if email is registered
     result.error = "Email exist";
   } else {
-    let newUser = {
+    // hash password
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    const newUser = {
       email: email,
-      password: "",
+      password: hash,
       postId: [],
       avt: "",
       username: username,
       refreshToken: "",
     };
-
-    // hash password
-    bcrypt.hash(password, saltRounds, function (err, hash) {
-      newUser.password = hash;
-    });
     // create token and refreshtoken
     const privateTokenKey = fs.readFileSync(
       path.resolve(__dirname, "./login/keys/privateToken.key")
@@ -56,12 +54,12 @@ module.exports.index = async (req, res) => {
     );
     newUser.refreshToken = refreshToken;
     if (refreshToken && token) {
+      await User.create(newUser);
       result.token = token;
       result.isRegister = true;
-      await User.create(newUser);
-    } else {
-      result.isRegister = false;
     }
+    let c = await User.findOne({ email: email });
+    console.log(c);
   }
 
   res.json(result);
