@@ -62,7 +62,6 @@ module.exports.index = async (req, res) => {
     } else {
       result.isRegister = false;
     }
-    console.log(newUser);
   }
 
   res.json(result);
