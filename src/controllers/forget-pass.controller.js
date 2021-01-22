@@ -20,8 +20,10 @@ module.exports.index = async (req, res) => {
   // recovery code
   let code = Math.trunc(Math.random() * 1000000).toString();
   if (code.length == 5) {
+    // if code is started with 0
     code = 0 + code;
   }
+
   // content of mail
   const mailContent = {
     from: "Oldy",
@@ -33,7 +35,7 @@ module.exports.index = async (req, res) => {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <style>
             .header { padding-bottom: 15px;}
             .code {
@@ -61,7 +63,7 @@ module.exports.index = async (req, res) => {
         </style>
     </head>
     <body>
-        <p><span class="header">Xin chào <b>${user.name}</b></span>,</p>
+        <p><span class="header">Xin chào <b>${user.username}</b></span>,</p>
         <p>
             Chúng tôi đã nhận được yêu cầu đặt <br>lại mật khẩu Oldy của bạn.<br>Nhập mã đặt lại
             mật khẩu của bạn sau đây:

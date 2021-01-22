@@ -45,7 +45,7 @@ const refreshToken = async (req, res) => {
         // new refresh token
         const newRefreshToken = jwt.sign(
           {
-            name: user.name,
+            username: user.username,
             email: user.email,
           },
           privateRefreshKey,

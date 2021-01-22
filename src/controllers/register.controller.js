@@ -22,7 +22,7 @@ module.exports.index = async (req, res) => {
       password: "",
       postId: [],
       avt: "",
-      name: name,
+      username: username,
       refreshToken: "",
     };
 
@@ -39,7 +39,7 @@ module.exports.index = async (req, res) => {
     );
     const token = jwt.sign(
       {
-        name: name,
+        username: username,
         email: email,
       },
       privateTokenKey,
@@ -48,7 +48,7 @@ module.exports.index = async (req, res) => {
 
     const refreshToken = jwt.sign(
       {
-        name: name,
+        username: username,
         email: email,
       },
       privateRefreshKey,
