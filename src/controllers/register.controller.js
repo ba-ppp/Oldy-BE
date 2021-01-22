@@ -17,7 +17,7 @@ module.exports.index = async (req, res) => {
     // if email is registered
     result.error = "Email exist";
   } else {
-    const newUser = {
+    let newUser = {
       email: email,
       password: "",
       postId: [],
@@ -62,6 +62,8 @@ module.exports.index = async (req, res) => {
     } else {
       result.isRegister = false;
     }
+    console.log(newUser);
   }
+
   res.json(result);
 };
