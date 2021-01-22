@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
   const result = {};
   const email = req.body.email; // email input
   const password = req.body.password; // password input
-  const name = req.body.name;
+  const username = req.body.username;
 
   const checkExist = await User.findOne({ email: email });
   if (checkExist) {

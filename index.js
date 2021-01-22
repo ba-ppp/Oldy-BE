@@ -10,6 +10,7 @@ const port = process.env.PORT || 8000;
 mongoose.connect(process.env.MONGO_URL);
 
 app.use(cors());
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
