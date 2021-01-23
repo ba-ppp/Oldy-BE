@@ -8,20 +8,19 @@ const saltRounds = 10;
 
 module.exports.index = async (req, res) => {
   const result = {};
-  const email = req.body.email; // email input
   const password = req.body.password; // password input
   const username = req.body.username;
 
-  const checkExist = await User.findOne({ email: email });
+  const checkExist = await User.findOne({ username: username });
   if (checkExist) {
-    // if email is registered
-    result.error = "Email exist";
+    // if username is registered
+    result.error = "Tên người dùng đã tồn tại";
   } else {
     // hash password
     const hash = await bcrypt.hash(password, saltRounds);
 
     const newUser = {
-      email: email,
+      email: "",
       password: hash,
       postId: [],
       avt: "",
@@ -38,7 +37,6 @@ module.exports.index = async (req, res) => {
     const token = jwt.sign(
       {
         username: username,
-        email: email,
       },
       privateTokenKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -47,7 +45,6 @@ module.exports.index = async (req, res) => {
     const refreshToken = jwt.sign(
       {
         username: username,
-        email: email,
       },
       privateRefreshKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
@@ -58,8 +55,6 @@ module.exports.index = async (req, res) => {
       result.token = token;
       result.isRegister = true;
     }
-    let c = await User.findOne({ email: email });
-    console.log(c);
   }
 
   res.json(result);

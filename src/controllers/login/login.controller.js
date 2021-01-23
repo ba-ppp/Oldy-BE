@@ -5,14 +5,14 @@ const fs = require("fs");
 const path = require("path");
 
 const login = async (req, res) => {
-  const email = req.body.email;
+  const username = req.body.username;
   const nonPassword = req.body.password; // password input
   let result = {
     error: "",
     isLogin: false,
   };
-  const user = await User.findOne({ email: email }); // check email is exist
-  // if email exist
+  const user = await User.findOne({ username: username }); // check username is exist
+  // if username exist
   if (user) {
     const password = user.password; // password real
     const checkPassword = await bcrypt.compare(nonPassword, password); // check password
@@ -30,7 +30,7 @@ const login = async (req, res) => {
       const token = jwt.sign(
         {
           _id: user._id,
-          email: user.email,
+          username: user.username,
         },
         privateTokenKey,
         { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -39,7 +39,7 @@ const login = async (req, res) => {
       const refreshToken = jwt.sign(
         {
           _id: user._id,
-          email: user.email,
+          username: user.username,
         },
         privateRefreshKey,
         { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -50,12 +50,15 @@ const login = async (req, res) => {
       result.isLogin = true;
 
       // save refreshToken to user's db
-      await User.updateOne({ email: email }, { refreshToken: refreshToken });
+      await User.updateOne(
+        { username: username },
+        { refreshToken: refreshToken }
+      );
     } else {
-      result.error = "Password not correct";
+      result.error = "Tên người dùng hoặc mật khẩu không đúng";
     }
   } else {
-    result.error = "Email not exist";
+    result.error = "Tên người dùng hoặc mật khẩu không đúng";
   }
 
   res.json(result);

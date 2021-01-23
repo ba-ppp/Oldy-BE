@@ -36,7 +36,7 @@ const refreshToken = async (req, res) => {
         const newToken = jwt.sign(
           {
             _id: user._id,
-            email: user.email,
+            username: user.username,
           },
           privateTokenKey,
           { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -46,7 +46,7 @@ const refreshToken = async (req, res) => {
         const newRefreshToken = jwt.sign(
           {
             username: user.username,
-            email: user.email,
+            _id: user._id,
           },
           privateRefreshKey,
           { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
