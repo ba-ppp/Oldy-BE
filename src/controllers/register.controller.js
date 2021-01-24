@@ -11,17 +11,16 @@ module.exports.index = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password; // password input
   const username = req.body.username;
+  const name = req.body.name;
 
   const checkExist = await User.findOne({ username: username });
-  const checkEmail = await User.findOne({email: email});
+  const checkEmail = await User.findOne({ email: email });
   if (checkExist) {
     // if username is registered
     result.error = "Tên người dùng đã tồn tại";
-  }
-  else if(checkEmail){
-    result.error = "Email đã được sử dụng cho tài khoản khác"
-  }
-  else {
+  } else if (checkEmail) {
+    result.error = "Email đã được sử dụng cho tài khoản khác";
+  } else {
     // hash password
     const hash = await bcrypt.hash(password, saltRounds);
 
@@ -32,6 +31,7 @@ module.exports.index = async (req, res) => {
       avt: "",
       username: username,
       refreshToken: "",
+      name: name,
     };
     // create token and refreshtoken
     const privateTokenKey = fs.readFileSync(
@@ -43,7 +43,7 @@ module.exports.index = async (req, res) => {
     const token = jwt.sign(
       {
         username: username,
-        email: email
+        email: email,
       },
       privateTokenKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -52,7 +52,7 @@ module.exports.index = async (req, res) => {
     const refreshToken = jwt.sign(
       {
         username: username,
-        email: email
+        email: email,
       },
       privateRefreshKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
@@ -62,7 +62,7 @@ module.exports.index = async (req, res) => {
     if (refreshToken && token) {
       await User.create(newUser);
       result.token = token;
-      result.isRegister = true; 
+      result.isRegister = true;
     }
   }
 

@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   postId: Array,
   avt: String,
   username: String,
+  name: String,
   refreshToken: String,
 });
 
