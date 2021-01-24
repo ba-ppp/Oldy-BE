@@ -6,12 +6,18 @@ const path = require("path");
 
 const login = async (req, res) => {
   const username = req.body.username;
+  const email = req.body.email;
   const nonPassword = req.body.password; // password input
+
   let result = {
     error: "",
     isLogin: false,
   };
+
   const user = await User.findOne({ username: username }); // check username is exist
+  if (!user) {
+    user = await User.findOne({ email: email });
+  }
   // if username exist
   if (user) {
     const password = user.password; // password real
