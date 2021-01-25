@@ -22,65 +22,69 @@ const refreshToken = async (req, res) => {
   );
 
   // token
-  const token = req.body.token;
+  const id = req.body.id;
   let refreshToken = "";
 
-  const decode = jwt.decode(token);
-  const user = await User.findById(decode._id);
-  refreshToken = user.refreshToken;
+  User.findOne({ _id: id }, async function (err, data) {
+    if (!data) {
+      res.json({ error: "This is not a valid id" });
+    } else {
+      const user = data;
+      refreshToken = user.refreshToken;
+      let newToken = "";
+      let newRefreshToken = "";
 
-  let newToken = "";
-  let newRefreshToken = "";
+      await jwt.verify(
+        refreshToken,
+        publicRefreshKey,
+        { algorithms: ["RS256"] },
+        async function (err, decoded) {
+          if (err) {
+            // refresh token expired
+            console.log(err.message);
+            if (err.message === "jwt expired") {
+              newToken = jwt.sign(
+                {
+                  _id: user._id,
+                  username: user.username,
+                },
+                privateTokenKey,
+                { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+              );
 
-  await jwt.verify(
-    refreshToken,
-    publicRefreshKey,
-    { algorithms: ["RS256"] },
-    async function (err, decoded) {
-      if (err) {
-        // refresh token expired
-        console.log(err.message);
-        if (err.message === "jwt expired") {
-          newToken = jwt.sign(
-            {
-              _id: user._id,
-              username: user.username,
-            },
-            privateTokenKey,
-            { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
-          );
-
-          // new refresh token
-          newRefreshToken = jwt.sign(
-            {
-              username: user.username,
-              _id: user._id,
-            },
-            privateRefreshKey,
-            {
-              algorithm: "RS256",
-              expiresIn: process.env.EXPIRESIN_REFRESHTOKEN,
+              // new refresh token
+              newRefreshToken = jwt.sign(
+                {
+                  username: user.username,
+                  _id: user._id,
+                },
+                privateRefreshKey,
+                {
+                  algorithm: "RS256",
+                  expiresIn: process.env.EXPIRESIN_REFRESHTOKEN,
+                }
+              );
+            } else {
+              result.error = "This is not a token";
             }
-          );
-        } else {
-          result.error = "This is not a token";
+          } else {
+            newToken = jwt.sign(
+              {
+                _id: user._id,
+                username: user.username,
+              },
+              privateTokenKey,
+              { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+            );
+          }
         }
-      } else {
-        newToken = jwt.sign(
-          {
-            _id: user._id,
-            username: user.username,
-          },
-          privateTokenKey,
-          { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
-        );
-      }
+      );
+      result.token = newToken;
+      // update new refreshtoken to db
+      await User.updateOne({ _id: user._id }, { refreshToken: refreshToken });
+      res.json(result);
     }
-  );
-  result.token = newToken;
-  // update new refreshtoken to db
-  await User.updateOne({ _id: user._id }, { refreshToken: refreshToken });
-  res.json(result);
+  });
 };
 
 module.exports.refreshToken = refreshToken;
