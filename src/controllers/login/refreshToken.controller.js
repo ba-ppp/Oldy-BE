@@ -10,6 +10,9 @@ const refreshToken = async (req, res) => {
   const privateTokenKey = fs.readFileSync(
     path.resolve(__dirname, "./keys/privateToken.key")
   );
+  const publicTokenKey = fs.readFileSync(
+    path.resolve(__dirname, "./keys/publicToken.key")
+  );
 
   const privateRefreshKey = fs.readFileSync(
     path.resolve(__dirname, "./keys/privateRefresh.key")
@@ -18,22 +21,52 @@ const refreshToken = async (req, res) => {
     path.resolve(__dirname, "./keys/publicRefresh.key")
   );
 
-  // refreshToken
-  const refreshToken = req.body.refreshToken;
-  // check token
+  // token
+  const token = req.body.token;
+  let refreshToken = "";
+
+  const decode = jwt.decode(token);
+  const user = await User.findById(decode._id);
+  refreshToken = user.refreshToken;
+
+  let newToken = "";
+  let newRefreshToken = "";
+
   await jwt.verify(
     refreshToken,
     publicRefreshKey,
     { algorithms: ["RS256"] },
     async function (err, decoded) {
-      // if not token
       if (err) {
-        result.error = "This is not a token";
+        // refresh token expired
+        console.log(err.message);
+        if (err.message === "jwt expired") {
+          newToken = jwt.sign(
+            {
+              _id: user._id,
+              username: user.username,
+            },
+            privateTokenKey,
+            { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+          );
+
+          // new refresh token
+          newRefreshToken = jwt.sign(
+            {
+              username: user.username,
+              _id: user._id,
+            },
+            privateRefreshKey,
+            {
+              algorithm: "RS256",
+              expiresIn: process.env.EXPIRESIN_REFRESHTOKEN,
+            }
+          );
+        } else {
+          result.error = "This is not a token";
+        }
       } else {
-        const id = decoded._id;
-        const user = await User.findById(id);
-        // new token
-        const newToken = jwt.sign(
+        newToken = jwt.sign(
           {
             _id: user._id,
             username: user.username,
@@ -41,24 +74,12 @@ const refreshToken = async (req, res) => {
           privateTokenKey,
           { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
         );
-
-        // new refresh token
-        const newRefreshToken = jwt.sign(
-          {
-            username: user.username,
-            _id: user._id,
-          },
-          privateRefreshKey,
-          { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
-        );
-
-        result.token = newToken;
-        result.refreshToken = newRefreshToken;
-        // update new refreshtoken to db
-        await User.updateOne({ _id: id }, { refreshToken: refreshToken });
       }
     }
   );
+  result.token = newToken;
+  // update new refreshtoken to db
+  await User.updateOne({ _id: user._id }, { refreshToken: refreshToken });
   res.json(result);
 };
 
