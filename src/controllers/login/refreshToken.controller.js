@@ -35,7 +35,6 @@ const refreshToken = async (req, res) => {
       console.log(user);
       refreshToken = user.refreshToken;
       let newToken = "";
-      let newRefreshToken = "";
 
       await jwt.verify(
         refreshToken,
@@ -63,10 +62,6 @@ const refreshToken = async (req, res) => {
       );
       result.token = newToken;
       // update new refreshtoken to db
-      await User.updateOne(
-        { _id: user._id },
-        { refreshToken: newRefreshToken }
-      );
       res.json(result);
     }
   });
