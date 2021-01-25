@@ -27,8 +27,10 @@ const refreshToken = async (req, res) => {
 
   User.findOne({ _id: id }, async function (err, data) {
     if (!data) {
+      //fake id
       res.json({ error: "This is not a valid id" });
     } else {
+      // infor of user
       const user = data;
       refreshToken = user.refreshToken;
       let newToken = "";
@@ -43,31 +45,10 @@ const refreshToken = async (req, res) => {
             // refresh token expired
             console.log(err.message);
             if (err.message === "jwt expired") {
-              newToken = jwt.sign(
-                {
-                  _id: user._id,
-                  username: user.username,
-                },
-                privateTokenKey,
-                { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
-              );
-
-              // new refresh token
-              newRefreshToken = jwt.sign(
-                {
-                  username: user.username,
-                  _id: user._id,
-                },
-                privateRefreshKey,
-                {
-                  algorithm: "RS256",
-                  expiresIn: process.env.EXPIRESIN_REFRESHTOKEN,
-                }
-              );
-            } else {
-              result.error = "This is not a token";
+              result.error = "Refresh token expired";
             }
           } else {
+            // if refreshtoken is not expired
             newToken = jwt.sign(
               {
                 _id: user._id,
@@ -81,7 +62,10 @@ const refreshToken = async (req, res) => {
       );
       result.token = newToken;
       // update new refreshtoken to db
-      await User.updateOne({ _id: user._id }, { refreshToken: refreshToken });
+      await User.updateOne(
+        { _id: user._id },
+        { refreshToken: newRefreshToken }
+      );
       res.json(result);
     }
   });
