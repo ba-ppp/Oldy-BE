@@ -32,6 +32,7 @@ const refreshToken = async (req, res) => {
     } else {
       // infor of user
       const user = data;
+      console.log(user);
       refreshToken = user.refreshToken;
       let newToken = "";
       let newRefreshToken = "";
