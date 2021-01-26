@@ -4,7 +4,12 @@ const nodemailer = require("nodemailer");
 
 module.exports.index = async (req, res) => {
   const email = req.body.email; // email user input
-  const user = await User.findOne({ email: email });
+  const username = req.body.username;
+  let user = await User.findOne({ email: email });
+  if (!user) {
+    user = await User.findOne({ username: username });
+  }
+
   if (!user) {
     res.json({ error: "Email not exist" });
     return;
