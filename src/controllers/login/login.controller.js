@@ -14,7 +14,7 @@ const login = async (req, res) => {
     isLogin: false,
   };
 
-  const user = await User.findOne({ username: username }); // check username is exist
+  let user = await User.findOne({ username: username }); // check username is exist
   if (!user) {
     user = await User.findOne({ email: email });
   }
