@@ -48,7 +48,7 @@ const login = async (req, res) => {
           username: user.username,
         },
         privateRefreshKey,
-        { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+        { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
       );
 
       result.refreshToken = refreshToken;
@@ -57,7 +57,7 @@ const login = async (req, res) => {
 
       // save refreshToken to user's db
       await User.updateOne(
-        { username: username },
+        { username: user.username },
         { refreshToken: refreshToken }
       );
     } else {
