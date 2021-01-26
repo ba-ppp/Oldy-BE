@@ -3,11 +3,11 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 module.exports.index = async (req, res) => {
-  const email = req.body.email; // email user input
-  const username = req.body.username;
-  let user = await User.findOne({ email: email });
+  const account = req.body.account; // email user input
+  console.log(account);
+  let user = await User.findOne({ email: account });
   if (!user) {
-    user = await User.findOne({ username: username });
+    user = await User.findOne({ username: account });
   }
 
   if (!user) {
@@ -26,13 +26,13 @@ module.exports.index = async (req, res) => {
   let code = Math.trunc(Math.random() * 1000000).toString();
   if (code.length == 5) {
     // if code is started with 0
-    code = 0 + code;
+    code = "0" + code;
   }
 
   // content of mail
   const mailContent = {
     from: "Oldy",
-    to: email,
+    to: user.email,
     subject: `${code} là mã khôi phục tài khoản Oldy của bạn`,
     text: "hi",
     html: `<!doctype html>
