@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 
 const saltRounds = 10;
 
@@ -23,8 +24,11 @@ module.exports.index = async (req, res) => {
   } else {
     // hash password
     const hash = await bcrypt.hash(password, saltRounds);
-
+    // create objectId
+    const id = new mongoose.Types.ObjectId();
+    // create new user
     const newUser = {
+      _id: id,
       email: email,
       password: hash,
       postId: [],
@@ -42,6 +46,7 @@ module.exports.index = async (req, res) => {
     );
     const token = jwt.sign(
       {
+        _id: id,
         username: username,
         email: email,
       },
@@ -51,6 +56,7 @@ module.exports.index = async (req, res) => {
 
     const refreshToken = jwt.sign(
       {
+        _id: id,
         username: username,
         email: email,
       },

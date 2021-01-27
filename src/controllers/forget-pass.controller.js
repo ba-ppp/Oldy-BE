@@ -1,11 +1,19 @@
 const User = require("../models/user.model");
-const bcrypt = require("bcrypt");
+const path = require("path");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const jwt = require("jsonwebtoken");
 
 module.exports.index = async (req, res) => {
   const account = req.body.account; // email user input
-  console.log(account);
+
+  // key
+  const privateTokenKey = fs.readFileSync(
+    path.resolve(__dirname, "./login/keys/privateToken.key")
+  );
+
   let user = await User.findOne({ email: account });
+
   if (!user) {
     user = await User.findOne({ username: account });
   }
@@ -14,6 +22,17 @@ module.exports.index = async (req, res) => {
     res.json({ error: "Email not exist" });
     return;
   }
+
+  // generate token
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    },
+    privateTokenKey,
+    { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
+  );
   // account to send mail
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -22,6 +41,7 @@ module.exports.index = async (req, res) => {
       pass: process.env.PASSWORD_ACCOUNT,
     },
   });
+
   // recovery code
   let code = Math.trunc(Math.random() * 1000000).toString();
   if (code.length == 5) {
@@ -85,5 +105,5 @@ module.exports.index = async (req, res) => {
   // send mail
   await transporter.sendMail(mailContent);
 
-  res.json({ code: code });
+  res.json({ code: code, token: token });
 };

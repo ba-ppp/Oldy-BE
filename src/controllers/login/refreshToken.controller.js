@@ -53,6 +53,7 @@ const refreshToken = async (req, res) => {
               {
                 _id: user._id,
                 username: user.username,
+                email: user.email,
               },
               privateTokenKey,
               { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
