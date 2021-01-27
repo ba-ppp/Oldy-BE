@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
-const saltRounds = 10;
-
 module.exports.index = async (req, res) => {
   const result = {};
   const email = req.body.email;
@@ -23,7 +21,7 @@ module.exports.index = async (req, res) => {
     result.error = "Email đã được sử dụng cho tài khoản khác";
   } else {
     // hash password
-    const hash = await bcrypt.hash(password, saltRounds);
+    const hash = await bcrypt.hash(password, process.env.SALT_ROUNDS_BCRYPT);
     // create objectId
     const id = new mongoose.Types.ObjectId();
     // create new user
