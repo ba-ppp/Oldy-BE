@@ -21,7 +21,10 @@ module.exports.index = async (req, res) => {
     result.error = "Email đã được sử dụng cho tài khoản khác";
   } else {
     // hash password
-    const hash = await bcrypt.hash(password, process.env.SALT_ROUNDS_BCRYPT);
+    const hash = await bcrypt.hash(
+      password,
+      parseInt(process.env.SALT_ROUNDS_BCRYPT)
+    );
     // create objectId
     const id = new mongoose.Types.ObjectId();
     // create new user
