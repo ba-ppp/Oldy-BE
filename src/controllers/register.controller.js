@@ -50,6 +50,7 @@ module.exports.index = async (req, res) => {
         _id: id,
         username: username,
         email: email,
+        name: name,
       },
       privateTokenKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -60,6 +61,7 @@ module.exports.index = async (req, res) => {
         _id: id,
         username: username,
         email: email,
+        name: name,
       },
       privateRefreshKey,
       { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }

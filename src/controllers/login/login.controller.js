@@ -37,6 +37,7 @@ const login = async (req, res) => {
           _id: user._id,
           username: user.username,
           email: user.email,
+          name: user.name,
         },
         privateTokenKey,
         { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_TOKEN }
@@ -47,12 +48,12 @@ const login = async (req, res) => {
           _id: user._id,
           username: user.username,
           email: user.email,
+          name: user.name,
         },
         privateRefreshKey,
         { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
       );
 
-      result.refreshToken = refreshToken;
       result.token = token;
       result.isLogin = true;
 
