@@ -26,7 +26,7 @@ app.get("/", function (req, res) {
   res.sendStatus(200);
 });
 
-app.use("/login", loginRoute);
+app.use("api/login", loginRoute);
 
 app.use("/register", registerRoute);
 

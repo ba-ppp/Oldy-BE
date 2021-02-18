@@ -5,18 +5,16 @@ const fs = require("fs");
 const path = require("path");
 
 const login = async (req, res) => {
-  const account = req.body.account;
+  const username = req.body.username;
   const nonPassword = req.body.password; // password input
 
   let result = {
-    error: "",
-    isLogin: false,
-  };
-
-  let user = await User.findOne({ username: account }); // check username is exist
-  if (!user) {
-    user = await User.findOne({ email: account });
+    errorCode : 1,
+    error : ''
   }
+
+  let user = await User.findOne({ username: username }); // check username is exist
+
   // if username exist
   if (user) {
     const password = user.password; // password real
@@ -53,9 +51,13 @@ const login = async (req, res) => {
         privateRefreshKey,
         { algorithm: "RS256", expiresIn: process.env.EXPIRESIN_REFRESHTOKEN }
       );
-
+      
+      result.errorCode = 0;
       result.token = token;
-      result.isLogin = true;
+      result.name = user.name;
+      result.email = user.email;
+      result.username = user.username;
+
 
       // save refreshToken to user's db
       await User.updateOne(
