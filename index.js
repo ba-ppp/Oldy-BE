@@ -30,6 +30,6 @@ app.use("/api/login", loginRoute);
 
 app.use("/api/registration", registerRoute);
 
-app.use("/forget", forgetRoute);
+app.use("api/password/forget", forgetRoute);
 
-app.use("/change-password", changePassRoute);
+app.use("api/password/change-password", changePassRoute);

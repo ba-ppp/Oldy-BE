@@ -19,7 +19,7 @@ module.exports.index = async (req, res) => {
   }
 
   if (!user) {
-    res.json({ error: "Email not exist" });
+    res.json({ errorCode: 1, error: "Email not exist" });
     return;
   }
 
@@ -105,5 +105,5 @@ module.exports.index = async (req, res) => {
   // send mail
   await transporter.sendMail(mailContent);
 
-  res.json({ code: code, token: token });
+  res.json({ errorCode: 0, code: code, token: token });
 };
