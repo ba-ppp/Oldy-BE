@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 module.exports.index = async (req, res) => {
   const result = {
-    errorCode = 0
+    errorCode: 0
   };
   const email = req.body.email;
   const password = req.body.password; // password input
