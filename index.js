@@ -28,7 +28,7 @@ app.get("/", function (req, res) {
 
 app.use("/api/login", loginRoute);
 
-app.use("/register", registerRoute);
+app.use("/api/register", registerRoute);
 
 app.use("/forget", forgetRoute);
 

@@ -6,7 +6,9 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 module.exports.index = async (req, res) => {
-  const result = {};
+  const result = {
+    errorCode = 0
+  };
   const email = req.body.email;
   const password = req.body.password; // password input
   const username = req.body.username;
@@ -17,8 +19,10 @@ module.exports.index = async (req, res) => {
   if (checkExist) {
     // if username is registered
     result.error = "Tên người dùng đã tồn tại";
+    result.errorCode = 1;
   } else if (checkEmail) {
     result.error = "Email đã được sử dụng cho tài khoản khác";
+    result.errorCode = 1;
   } else {
     // hash password
     const hash = await bcrypt.hash(
