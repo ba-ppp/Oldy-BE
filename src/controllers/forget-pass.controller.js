@@ -51,7 +51,7 @@ module.exports.index = async (req, res) => {
 
   // content of mail
   const mailContent = {
-    from: "Oldy",
+    from: '"Oldy Team" <contact.oldy.team@gmail.com>',
     to: user.email,
     subject: `${code} là mã khôi phục tài khoản Oldy của bạn`,
     text: "hi",
