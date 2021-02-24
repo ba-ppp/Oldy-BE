@@ -8,7 +8,6 @@ module.exports.index = async (req, res) => {
     errorCode : 0,
     error: ''
   };
-  res.json('hi');
   let user = await User.findOne({ _id: id });
   if (!user){
     result.errorCode = 1;
