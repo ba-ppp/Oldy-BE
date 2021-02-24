@@ -10,5 +10,5 @@ module.exports.index = async (req, res) => {
     parseInt(process.env.SALT_ROUNDS_BCRYPT)
   );
   await User.findByIdAndUpdate(id, { password: hash });
-  res.json({ message: "success" });
+  res.json({ errorCode: 1 });
 };
