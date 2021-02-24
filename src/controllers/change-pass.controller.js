@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
   if (!user){
     result.errorCode = 1;
     result.error = 'User not exist';
-    res.json(result);
+    res.json('hi');
   }
   const hash = await bcrypt.hash(
     password,
