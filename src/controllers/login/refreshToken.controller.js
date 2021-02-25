@@ -6,7 +6,8 @@ const path = require("path");
 const refreshToken = async (req, res) => {
   const result = {
     error: '',
-    token: ''
+    token: '',
+    errorCode: 0
   };
 
   // key
@@ -31,7 +32,9 @@ const refreshToken = async (req, res) => {
   User.findOne({ _id: id }, async function (err, data) {
     if (!data) {
       //fake id
-      res.json({ error: "This is not a valid id" });
+      result.errorCode = 1;
+      result.error = "This is not a valid id";
+      res.json(result);
     } else {
       // infor of user
       const user = data;
@@ -46,8 +49,8 @@ const refreshToken = async (req, res) => {
         async function (err, decoded) {
           if (err) {
             // refresh token expired
-            console.log(err.message);
             if (err.message === "jwt expired") {
+              result.errorCode = 1;
               result.error = "Refresh token expired";
             }
           } else {
