@@ -4,7 +4,10 @@ const fs = require("fs");
 const path = require("path");
 
 const refreshToken = async (req, res) => {
-  const result = {};
+  const result = {
+    error: '',
+    token: ''
+  };
 
   // key
   const privateTokenKey = fs.readFileSync(
