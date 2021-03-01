@@ -54,10 +54,7 @@ const login = async (req, res) => {
       
       result.errorCode = 0;
       result.token = token;
-      result.name = user.name;
-      result.email = user.email;
-      result.username = user.username;
-      result.avt = user.avt;
+      result.id = user._id;
 
 
       // save refreshToken to user's db
