@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const registerController = require("../controllers/register.controller");
+const registerController = require("../controllers/register/register.controller");
 
 router.get("/", (req, res) => {
   res.sendStatus(200);

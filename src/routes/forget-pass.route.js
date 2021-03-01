@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const forgetController = require("../controllers/forget-pass.controller");
+const forgetController = require("../controllers/forgetPass/forget-pass.controller");
 
 router.get("/", (req, res) => {
   res.sendStatus(200);

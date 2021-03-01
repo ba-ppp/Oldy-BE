@@ -1,4 +1,4 @@
-const User = require("../models/user.model");
+const User = require("../../models/user.model");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
