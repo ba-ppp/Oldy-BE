@@ -57,6 +57,7 @@ const login = async (req, res) => {
       result.name = user.name;
       result.email = user.email;
       result.username = user.username;
+      result.avt = user.avt;
 
 
       // save refreshToken to user's db
