@@ -72,12 +72,11 @@ module.exports.index = async (req, res) => {
     );
 
     newUser.refreshToken = refreshToken;
+    newUser.token = token;
     if (refreshToken && token) {
       await User.create(newUser);
-      result.token = token;
-      result.isRegister = true;
     }
   }
 
-  res.json(result);
+  res.json(newUser);
 };
