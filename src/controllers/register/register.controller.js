@@ -37,7 +37,7 @@ module.exports.index = async (req, res) => {
       email: email,
       password: hash,
       postId: [],
-      avt: "",
+      avt: "https://loremflickr.com/320/240",
       username: username,
       refreshToken: "",
       name: name,
@@ -46,6 +46,7 @@ module.exports.index = async (req, res) => {
     result.email = email;
     result.username = username;
     result.name = name;
+    result.avt = 'https://loremflickr.com/320/240';
     // create token and refreshtoken
     const privateTokenKey = fs.readFileSync(
       path.resolve(__dirname, "../login/keys/privateToken.key")
