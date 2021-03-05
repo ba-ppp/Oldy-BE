@@ -43,12 +43,15 @@ module.exports.index = async (req, res) => {
       name: name,
     };
     result.userId = id;
+    result.email = email;
+    result.username = username;
+    result.name = name;
     // create token and refreshtoken
     const privateTokenKey = fs.readFileSync(
-      path.resolve(__dirname, "./login/keys/privateToken.key")
+      path.resolve(__dirname, "../login/keys/privateToken.key")
     );
     const privateRefreshKey = fs.readFileSync(
-      path.resolve(__dirname, "./login/keys/privateRefresh.key")
+      path.resolve(__dirname, "../login/keys/privateRefresh.key")
     );
     const token = jwt.sign(
       {
@@ -73,11 +76,11 @@ module.exports.index = async (req, res) => {
     );
 
     newUser.refreshToken = refreshToken;
-    newUser.token = token;
+    result.token = token;
     if (refreshToken && token) {
       await User.create(newUser);
     }
   }
-
+  console.log(result)
   res.json(result);
 };
