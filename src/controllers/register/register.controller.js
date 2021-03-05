@@ -42,6 +42,7 @@ module.exports.index = async (req, res) => {
       refreshToken: "",
       name: name,
     };
+    result.userId = id;
     // create token and refreshtoken
     const privateTokenKey = fs.readFileSync(
       path.resolve(__dirname, "./login/keys/privateToken.key")
@@ -78,5 +79,5 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  res.json(newUser);
+  res.json(result);
 };
