@@ -19,6 +19,7 @@ const registerRoute = require("./src/routes/register.route");
 const forgetRoute = require("./src/routes/forget-pass.route");
 const changePassRoute = require("./src/routes/change-pass.route");
 const postRoute = require("./src/routes/getPost.route");
+const profileRoute = require("./src/routes/profile.route");
 
 app.listen(port, () => {
   console.log("App listening on port", port);
@@ -36,3 +37,5 @@ app.use("/api/password/forget", forgetRoute);
 app.use("/api/password/change-password", changePassRoute);
 
 app.use("/api/post", postRoute);
+
+app.use("/api/profile", profileRoute);
