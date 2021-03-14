@@ -6,7 +6,7 @@ module.exports.index = async (req, res) => {
     if(check){
         res.json({
             errorCode : 1,
-            message: 'Email was used for another account'
+            message: 'Email đã được sử dụng cho tài khoản khác'
         })
     }
     const user = await User.findById(id);
