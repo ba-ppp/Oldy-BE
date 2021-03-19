@@ -18,3 +18,8 @@ module.exports.index = async (req, res) => {
         message: 'done'
     });
 }
+
+module.exports.changeAvt = async (req, res) => {
+    console.log(req.files);
+    console.log('hi');
+}
