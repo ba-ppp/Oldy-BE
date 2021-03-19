@@ -22,6 +22,15 @@ module.exports.index = async (req, res) => {
     res.json({ errorCode: 1, error: "Email not exist" });
     return;
   }
+  console.log(user)
+  const result = {
+    id: user._id,
+    avt: user.avt,
+    email: user.email,
+    username: user.username,
+    name: user.name,
+    errorCode: 0,
+  }
 
   // generate token
   const token = jwt.sign(
@@ -104,6 +113,7 @@ module.exports.index = async (req, res) => {
 
   // send mail
   await transporter.sendMail(mailContent);
-
-  res.json({ errorCode: 0, code: code, token: token });
+  result.code = code;
+  result.token = token;
+  res.json(result);
 };
