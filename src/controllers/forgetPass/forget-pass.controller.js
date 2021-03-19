@@ -9,7 +9,7 @@ module.exports.index = async (req, res) => {
 
   // key
   const privateTokenKey = fs.readFileSync(
-    path.resolve(__dirname, "./login/keys/privateToken.key")
+    path.resolve(__dirname, "../login/keys/privateToken.key")
   );
 
   let user = await User.findOne({ email: account });
