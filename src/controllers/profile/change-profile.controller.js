@@ -26,5 +26,6 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
+    console.log('hi');
     res.json(req.body.image);
 }
