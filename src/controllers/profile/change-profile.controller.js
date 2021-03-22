@@ -20,5 +20,5 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
-    res.send(req.files);
+    res.json(req.files);
 }
