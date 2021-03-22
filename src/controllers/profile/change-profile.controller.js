@@ -26,7 +26,11 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
-    res.json(req.body)
+    res.json(
+        {
+            error: req.file
+        }
+    )
     // const data = {
     //     image: req.body.image,
     // }
