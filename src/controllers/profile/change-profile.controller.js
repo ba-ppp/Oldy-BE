@@ -28,5 +28,6 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
+    res.json(req.file);
     cloudinary.uploader.upload(req.file);
 }
