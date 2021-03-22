@@ -14,6 +14,6 @@ router.get("/change-avt", (req, res) => {
 
 router.post("/change-profile", changeProfileController.index);
 
-router.post("/change-avt", upload.single('avt'), changeProfileController.changeAvt);
+router.post("/change-avt", changeProfileController.changeAvt);
 
 module.exports = router;
