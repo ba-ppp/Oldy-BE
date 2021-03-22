@@ -105,7 +105,7 @@ module.exports.index = async (req, res) => {
         <div class="code"><code>${code}</code></div>
         <p class = "footer"><b>Bạn đã không yêu cầu thay đổi này</b></p>
         <p>Nếu bạn không yêu cầu mật khẩu mới,<br><a href="#">hãy cho chúng tôi biết.</a></p>
-        <img src= "https://res.cloudinary.com/dfcvhqdl0/image/upload/v1611196081/Oldy/logo_size_etqzra.jpg">
+        <img src= "https://res.cloudinary.com/dfcvhqdl0/image/upload/v1616380626/Oldy/logo_192x192_w_kpzdfd.jpg">
     </body>
     </html>
     `,
