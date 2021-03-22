@@ -1,5 +1,11 @@
 const User = require("../../models/user.model");
 
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 module.exports.index = async (req, res) => {
     const { id, name, email } = req.body;
     const check = await User.findOne({ email: email });
@@ -20,5 +26,5 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
-    res.json(req.files);
+    res.json(req.body.image);
 }
