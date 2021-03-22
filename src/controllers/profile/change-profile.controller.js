@@ -26,6 +26,9 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
-    console.log('hi');
-    res.json(req.body.image);
+    res.json(req.body)
+    // const data = {
+    //     image: req.body.image,
+    // }
+    //cloudinary.uploader.upload(data.image);
 }
