@@ -20,6 +20,5 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res) => {
-    console.log(req.files);
-    console.log('hi');
+    res.send(req.files);
 }
