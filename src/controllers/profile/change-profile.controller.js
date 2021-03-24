@@ -1,12 +1,5 @@
 const User = require("../../models/user.model");
-
-
-const cloudinary = require('cloudinary').v2;
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
-});
+const cloudinary = require('./modelCloud')
 
 module.exports.index = async (req, res) => {
     const { id, name, email } = req.body;
@@ -27,7 +20,20 @@ module.exports.index = async (req, res) => {
     });
 }
 
-module.exports.changeAvt = async (req, res) => {
-    cloudinary.uploader.upload(req.file);
-    res.json(req.file);
+module.exports.changeAvt = async (req, res, next) => {
+        //req.file.path chính là đường dẫn của file khi upload bằng multer
+        const userId = req.body.userId;
+        const user = await User.findById(userId);
+        cloudinary.uploadSingle(req.file.path).then(async (result) => {
+
+            user.avt = result.url;
+            await User.findByIdAndUpdate(userId, user);
+            // let imageDetails = {
+            //     imageName: req.body.imageName || '',
+            //     cloudImage: result.url,
+            //     imageId: result.id
+            // }
+        })
+        
+        res.json(req.file)
 }

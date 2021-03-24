@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
     let data = [];
 
     let posts = await Post.find(); // get post
-
+    
     if (posts) {
         result.errorCode = 0;
         for (post of posts) {
