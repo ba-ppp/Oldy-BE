@@ -22,18 +22,31 @@ module.exports.index = async (req, res) => {
 
 module.exports.changeAvt = async (req, res, next) => {
         //req.file.path chính là đường dẫn của file khi upload bằng multer
+        const result = {
+            errorCode: 0,
+            message: '',
+            err: 0,
+            avt: ''
+        }
         const userId = req.body.userId;
         const user = await User.findById(userId);
-        cloudinary.uploadSingle(req.file.path).then(async (result) => {
+        await cloudinary.uploadSingle(req.file.path).then(async (res) => {
 
-            user.avt = result.url;
+            user.avt = res.url;
             await User.findByIdAndUpdate(userId, user);
+            if(res.url){
+                result.message = 'Thay đổi ảnh đại diện thành công';
+                result.avt = res.url;
+            } else {
+                result.message = 'Thay đổi ảnh đại diện thất bại';
+                result.err = 1;
+            }
+                
             // let imageDetails = {
             //     imageName: req.body.imageName || '',
             //     cloudImage: result.url,
             //     imageId: result.id
             // }
         })
-        
-        res.json(req.file)
+        res.json(result);
 }

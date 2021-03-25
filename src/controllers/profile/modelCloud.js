@@ -16,7 +16,6 @@ var self = module.exports = {
                     if (result) {
                         const fs = require('fs')
                         fs.unlinkSync(file)
-                        console.log(result.secure_url)
                         resolve({
                             url: result.secure_url
                         })
