@@ -17,7 +17,8 @@ var self = module.exports = {
                         const fs = require('fs')
                         fs.unlinkSync(file)
                         resolve({
-                            url: result.secure_url
+                            url: result.secure_url,
+                            thumb1: self.reSizeImage(result.public_id, 40, 40)
                         })
                     }
                 })

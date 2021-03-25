@@ -30,8 +30,7 @@ module.exports.changeAvt = async (req, res, next) => {
         const userId = req.body.userId;
         const user = await User.findById(userId);
         await cloudinary.uploadSingle(req.file.path).then(async (res) => {
-
-            user.avt = res.url;
+            user.avt = res.thumb1;
             await User.findByIdAndUpdate(userId, user);
             if(res.url){
                 result.message = 'Thay đổi ảnh đại diện thành công';
