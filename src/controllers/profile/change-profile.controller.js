@@ -25,7 +25,6 @@ module.exports.changeAvt = async (req, res, next) => {
         const result = {
             errorCode: 0,
             message: '',
-            err: 0,
             avt: ''
         }
         const userId = req.body.userId;
@@ -39,7 +38,6 @@ module.exports.changeAvt = async (req, res, next) => {
                 result.avt = res.url;
             } else {
                 result.message = 'Thay đổi ảnh đại diện thất bại';
-                result.err = 1;
             }
                 
             // let imageDetails = {
