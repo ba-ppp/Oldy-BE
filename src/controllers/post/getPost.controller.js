@@ -34,9 +34,10 @@ module.exports.index = async (req, res) => {
             let info = {}; // info user post
             info.post = newpost;
             let user = await User.findById(post.userId);
+            const newAvt = user.avt.replace('h_50,w_50', 'h_40,w_40');;
             info.user = {
                 username: user.username,
-                avt: user.avt,
+                avt: newAvt,
             };
             data.push(info)
         }
