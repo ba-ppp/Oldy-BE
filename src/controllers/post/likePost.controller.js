@@ -1,5 +1,4 @@
 const Post = require("../../models/post.model");
-const User = require("../../models/user.model");
 
 module.exports.index = async (req, res) => {
     const userId = req.body.userId;
