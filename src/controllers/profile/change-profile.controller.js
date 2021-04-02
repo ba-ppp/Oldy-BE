@@ -21,7 +21,6 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeAvt = async (req, res, next) => {
-        //req.file.path chính là đường dẫn của file khi upload bằng multer
         const result = {
             errorCode: 0,
             message: '',
