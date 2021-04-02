@@ -14,6 +14,6 @@ router.post("/like", likePostController.index);
 
 router.post("/upload", upPostController.index);
 
-router.post("/image", upload.single('images'), uploadImageController.index);
+router.post("/image", upload.single('image'), uploadImageController.index);
 
 module.exports = router;

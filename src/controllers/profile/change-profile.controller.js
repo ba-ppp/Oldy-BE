@@ -37,12 +37,6 @@ module.exports.changeAvt = async (req, res) => {
             } else {
                 result.message = 'Thay đổi ảnh đại diện thất bại';
             }
-                
-            // let imageDetails = {
-            //     imageName: req.body.imageName || '',
-            //     cloudImage: result.url,
-            //     imageId: result.id
-            // }
         })
         res.json(result);
 }

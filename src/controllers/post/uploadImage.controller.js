@@ -1,6 +1,6 @@
 const cloudinary = require('../profile/modelCloud');
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
     const result = {
         errorCode: 0,
         message: '',
