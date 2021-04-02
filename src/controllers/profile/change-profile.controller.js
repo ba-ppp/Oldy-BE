@@ -20,7 +20,7 @@ module.exports.index = async (req, res) => {
     });
 }
 
-module.exports.changeAvt = async (req, res, next) => {
+module.exports.changeAvt = async (req, res) => {
         const result = {
             errorCode: 0,
             message: '',
