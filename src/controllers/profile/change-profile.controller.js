@@ -28,7 +28,7 @@ module.exports.changeAvt = async (req, res) => {
         }
         const userId = req.body.userId;
         const user = await User.findById(userId);
-        await cloudinary.uploadSingle(req.file.path).then(async (res) => {
+        await cloudinary.uploadSingle(req.file.path, 'single').then(async (res) => {
             user.avt = res.thumb1;
             await User.findByIdAndUpdate(userId, user);
             if(res.url){

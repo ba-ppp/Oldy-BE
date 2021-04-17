@@ -10,9 +10,9 @@ module.exports.index = async (req, res) => {
         comments: {},
         liked: false,
     }
-
     await Post.create(post);
     res.json({
+        errorCode: 0,
         message: 'Đăng bài thành công'
     })
 }

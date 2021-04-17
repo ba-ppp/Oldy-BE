@@ -1,21 +1,20 @@
 const cloudinary = require('../profile/modelCloud');
+const User = require("../../models/user.model");
 
 module.exports.index = async (req, res) => {
     const result = {
         errorCode: 0,
         message: '',
-        images: '',
+        url: ''
     }
-    const userId = req.body.userId;
-    const user = await User.findById(userId);
-    await cloudinary.uploadSingle(req.file.path).then(async (res) => {
-        user.avt = res.thumb1;
-        await User.findByIdAndUpdate(userId, user);
+
+    await cloudinary.uploadSingle(req.file.path, 'post').then(async (res) => {
         if(res.url){
             result.message = 'Tải hình ảnh thành công';
-            result.images = res.url;
+            result.url = res.url;
         } else {
             result.message = 'Tải hình ảnh thất bại';
+            result.errorCode = 1;
         }
     })
     res.json(result);
