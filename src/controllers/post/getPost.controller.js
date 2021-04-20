@@ -10,6 +10,7 @@ module.exports.index = async (req, res) => {
     let data = [];
 
     let posts = await Post.find(); // get post
+    posts.reverse();
     
     if (posts) {
         result.errorCode = 0;
