@@ -113,9 +113,11 @@ module.exports.index = async (req, res) => {
 
   // send mail
   transporter.sendMail(mailContent, (err, info) => {
-    res.json(err)
+    if(err)
+      res.json(err)
+    result.code = code;
+    result.token = token;
+    res.json(result);
   });
-  result.code = code;
-  result.token = token;
-  res.json(result);
+  
 };
