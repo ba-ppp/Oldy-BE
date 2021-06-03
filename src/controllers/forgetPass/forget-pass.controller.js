@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.index = async (req, res) => {
   const account = req.body.account.toLowerCase(); // email user input
-
+  console.log('hi')
   // key
   const privateTokenKey = fs.readFileSync(
     path.resolve(__dirname, "../login/keys/privateToken.key")
