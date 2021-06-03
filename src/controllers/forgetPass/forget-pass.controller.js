@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 
 module.exports.index = async (req, res) => {
   const account = req.body.account.toLowerCase(); // email user input
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   // key
   const privateTokenKey = fs.readFileSync(
     path.resolve(__dirname, "../login/keys/privateToken.key")
@@ -55,7 +57,7 @@ module.exports.index = async (req, res) => {
     // if code is started with 0
     code = "0" + code;
   }
-  
+
   // content of mail
   const mailContent = {
     from: '"Oldy Team" <contact.oldy.team@gmail.com>',
