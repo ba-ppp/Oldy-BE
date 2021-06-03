@@ -8,10 +8,21 @@ const bodyParser = require("body-parser");
 
 const port = process.env.PORT || 8000;
 
+const corsOpts = {
+  origin: '*',
 
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 mongoose.connect(process.env.MONGO_URL);
-
-app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
